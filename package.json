@@ -1,0 +1,10 @@
+{
+    "name": "nodejsmapexample"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "2.3.11"
+    , "jade": ">= 0.0.1"
+		, "socket.io":">= 0.6.18"
+  }
+}

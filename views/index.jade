@@ -1,0 +1,90 @@
+script(src='http://www.google.com/maps/api/js?sensor=false')
+script(src='/socket.io/socket.io.js')
+article.grid_8.alpha
+article#rightside.grid_4.omega
+  p List of ID looking at this page,
+script
+  //Setup Socket.io
+  socket = new io.Socket('nodejsmapexample.amscotti.dotcloud.com');
+  socket.connect();
+
+  //Setup Google Map
+  var markersArray = [];
+  var mapcanvas = document.createElement('div');
+  mapcanvas.id = 'mapcanvas';
+  mapcanvas.style.height = '600px';
+  mapcanvas.style.width = '600px';
+
+  document.querySelector('article').appendChild(mapcanvas);
+  var myOptions = {
+    zoom: 10,
+    mapTypeControl: false,
+    navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
+
+  //Get geolocation		
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success, error, {maximumAge: 75000});
+  } else {
+    error('not supported');
+  }
+
+  //Send geolocation to server
+  function success(position) {
+    map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+    socket.on('connect', function(){ 
+      socket.send({
+        'latitude' : position.coords.latitude,
+        'longitude' : position.coords.longitude
+        });
+      });
+      setInterval ( function(){
+        socket.send({
+          'latitude' : position.coords.latitude,
+          'longitude' : position.coords.longitude
+          });
+      }, 10000);
+  }
+
+  //Get geolocation from server
+  socket.on('message', function(message){
+    console.log(message);
+    if(message.type == "add"){
+      found = false;
+      for (i=0; i<markersArray.length; i++){
+        if(markersArray[i].getTitle() == message.id){
+          found = true;
+          markersArray[i].setPosition(new google.maps.LatLng(message.latitude, message.longitude));
+        }
+      }
+      if(!found){
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(message.latitude, message.longitude), 
+          map: map, 
+          title: message.id,
+          icon: "http://code.google.com/apis/maps/documentation/javascript/examples/images/beachflag.png"
+        });
+        markersArray.push(marker);
+        $("#rightside").append($("<div/>",{
+          class: "marker",
+          text: message.id,
+          id: message.id
+        }));
+      }
+    } else {
+      for (i=0; i<markersArray.length; i++){
+        if(markersArray[i].getTitle() == message.id){
+          markersArray[i].setMap(null);
+        }
+      }
+      $("#" + message.id).remove();
+    }	
+  });
+  
+  function error(msg) {
+    var s = document.querySelector('#status');
+    s.innerHTML = typeof msg == 'string' ? msg : "failed";
+    s.className = 'fail';
+  }

@@ -1,0 +1,41 @@
+body {
+  background: gray;
+}
+
+header {
+  margin:50px 0px; padding:0px;
+  text-align:center;
+  height: 100px;
+}
+
+header h1 {
+  font-size:20px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#wrapper {
+  background-color: white;
+  height: 800px;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+
+#social {
+  padding-top: 25px;	
+}
+
+#social a{
+  margin-right: 5px;
+}
+
+.marker {
+  margin-top: 10px;
+  padding-left: 10px;
+  background-color: #00B7FF;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
