@@ -2,6 +2,7 @@ script(src='http://www.google.com/maps/api/js?sensor=false')
 script(src='/socket.io/socket.io.js')
 article.grid_8.alpha
 article#rightside.grid_4.omega
+  #status
   p List of ID looking at this page,
 script
   //Setup Socket.io
@@ -84,7 +85,13 @@ script
   });
   
   function error(msg) {
-    var s = document.querySelector('#status');
-    s.innerHTML = typeof msg == 'string' ? msg : "failed";
-    s.className = 'fail';
+    if(msg.code === 1){
+      $('#status').text("Failed: PERMISSION DENIED");
+    } else if (msg.code === 2){
+      $('#status').text("Failed: POSITION UNAVAILABLE");
+    } else if (msg.code === 3){
+      $('#status').text("Failed: TIMEOUT");
+    } else {
+      $('#status').text("Failed: " + msg.code);
+    }
   }
