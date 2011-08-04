@@ -51,7 +51,6 @@ script
 
   //Get geolocation from server
   socket.on('message', function(message){
-    console.log(message);
     if(message.type == "add"){
       found = false;
       for (i=0; i<markersArray.length; i++){
