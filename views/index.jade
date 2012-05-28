@@ -6,8 +6,8 @@ article#rightside.grid_4.omega
   p List of ID looking at this page,
 script
   //Setup Socket.io
-  socket = new io.Socket('nodejsmapexample.amscotti.dotcloud.com');
-  socket.connect();
+  //socket = new io.Socket('nodejsmapexample.amscotti.dotcloud.com');
+  var socket = io.connect('http://localhost:8080');
 
   //Setup Google Map
   var markersArray = [];
@@ -36,13 +36,13 @@ script
   function success(position) {
     map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
     socket.on('connect', function(){ 
-      socket.send({
+      socket.emit("add", {
         'latitude' : position.coords.latitude,
         'longitude' : position.coords.longitude
         });
       });
       setInterval ( function(){
-        socket.send({
+        socket.emit("add", {
           'latitude' : position.coords.latitude,
           'longitude' : position.coords.longitude
           });
@@ -50,8 +50,8 @@ script
   }
 
   //Get geolocation from server
-  socket.on('message', function(message){
-    if(message.type == "add"){
+  socket.on("add", function(message){
+      console.log("ADD");
       found = false;
       for (i=0; i<markersArray.length; i++){
         if(markersArray[i].getTitle() == message.id){
@@ -73,14 +73,16 @@ script
           id: message.id
         }));
       }
-    } else {
-      for (i=0; i<markersArray.length; i++){
-        if(markersArray[i].getTitle() == message.id){
-          markersArray[i].setMap(null);
-        }
+  });
+  
+  socket.on('remove', function(message){
+    console.log("REMOVE");
+    for (i=0; i<markersArray.length; i++){
+      if(markersArray[i].getTitle() == message.id){
+        markersArray[i].setMap(null);
       }
-      $("#" + message.id).remove();
-    }	
+    }
+    $("#" + message.id).remove();	
   });
   
   function error(msg) {

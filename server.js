@@ -1,13 +1,9 @@
-/**
- * Module dependencies.
- */
 var express = require('express');
-var io = require('socket.io');
+var socket = require('socket.io');
 
 var app = module.exports = express.createServer();
 
 // Configuration
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -30,20 +26,23 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-
-//Socket.io
-var socket = io.listen(app); 
-socket.on('connection', function(client){
-    client.on('message', function(message){
-        console.log("latitude = " + message.latitude);
-		    console.log("longitude = " + message.longitude);
-		    socket.broadcast({'type': "add", 'id': client.sessionId,  'latitude': message.latitude, 'longitude': message.longitude});
-	});
-	//Remove client from Google Map 
-	client.on('disconnect', function(){
-		socket.broadcast({'type': "remove", 'id': client.sessionId});
-	}); 
-});
-
 app.listen(8080);
 console.log("Express server listening on port %d", app.address().port);
+
+//Socket.io
+var io = socket.listen(app); 
+io.on('connection', function(socket){
+
+  socket.on('add', function(message){
+    console.log("ID: " + socket.id + " latitude = " + message.latitude + " longitude = " + message.longitude);
+    io.sockets.emit("add", {'id': socket.id,  'latitude': message.latitude, 'longitude': message.longitude});
+  });
+		
+	//Remove client from Google Map 
+	socket.on('disconnect', function(){
+	  io.sockets.emit("remove", {'id': socket.id});
+	});
+	 
+});
+
+
