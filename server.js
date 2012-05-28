@@ -33,7 +33,10 @@ app.listen(port, function() {
 
 
 //Socket.io
-var io = socket.listen(app); 
+var io = socket.listen(app);
+
+//Needed for Heroku
+//https://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
 io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 
