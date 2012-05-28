@@ -6,8 +6,7 @@ article#rightside.grid_4.omega
   p List of ID looking at this page,
 script
   //Setup Socket.io
-  //socket = new io.Socket('nodejsmapexample.amscotti.dotcloud.com');
-  var socket = io.connect('http://localhost:8080');
+  var socket = io.connect();
 
   //Setup Google Map
   var markersArray = [];

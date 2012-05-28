@@ -26,15 +26,23 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-app.listen(8080);
-console.log("Express server listening on port %d", app.address().port);
+var port = process.env.PORT || 8080;
+app.listen(port, function() {
+  console.log("Express server listening on port %d", app.address().port);
+});
+
 
 //Socket.io
 var io = socket.listen(app); 
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 io.on('connection', function(socket){
 
   socket.on('add', function(message){
-    console.log("ID: " + socket.id + " latitude = " + message.latitude + " longitude = " + message.longitude);
+    console.log("ID: %s latitude = %d longitude = %d", socket.id,  message.latitude, message.longitude);
     io.sockets.emit("add", {'id': socket.id,  'latitude': message.latitude, 'longitude': message.longitude});
   });
 		
