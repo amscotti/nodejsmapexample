@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title>Node.js Geolocation Map Example</title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width"/>
+        <link rel="stylesheet" href="styles/bootstrap.min.css"/>
+        <link rel="stylesheet" href="styles/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" href="styles/style.css"/>
+        <link rel="stylesheet" href="styles/angular-ui.min.css"/>
+    </head>
+    <body ng-app="MapApp">
+
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+        
+        <!--[if lt IE 9]>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/1.2.4/es5-shim.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js"></script>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                
+                <div class="nav-collapse collapse">
+                <ul class="nav">
+                  <li><a href="https://github.com/amscotti/nodejsmapexample">GitHub</a></li>
+                  <li><a href="http://angularjs.org/">AngularJS</a></li>
+                  <li><a href="http://nodejs.org/">Node.js</a></li>
+                  <li><a href="http://socket.io/">Socket.io</a></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+
+        <header class="jumbotron subhead" id="overview">
+          <div class="container">
+            <h1>Node.js Geolocation Map Example</h1>
+            <p class="lead">Built using Node.js and Socket.io for the backend and AngularJS for the frontend.</p>
+          </div>
+        </header>
+        
+        <div class="container" ng-view></div>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+        <script src="http://www.google.com/maps/api/js?sensor=false"></script>
+        <script src="scripts/vendor/angular-ui.min.js"></script>
+        
+       	<script src="/socket.io/socket.io.js"></script>
+        <script src="scripts/directive/map.js"></script>
+
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/services/socket.js"></script>
+        
+
+        <!-- 
+        Google Analytics: change UA-XXXXX-X to be your site's ID. 
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+        -->
+    </body>
+</html>
