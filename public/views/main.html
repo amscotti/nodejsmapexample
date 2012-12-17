@@ -1,0 +1,31 @@
+<div class="row-fluid" ng-init="getPosition()">
+	<div class="span8">
+		<div class="hero-unit">
+			<div id="map_canvas" ui-map="myMap" class="map" ui-options="mapOptions">
+			</div>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="hero-unit" id="userList">
+			<h4><i class="icon-user"></i> User List</h4>
+			<ul>
+			  <li ng-repeat="item in myMarkers | orderBy:'id'">
+			    <button class="btn btn-primary" ng-click="myMap.panTo(item.marker.getPosition())"><i class="icon-search icon-white"></i> {{item.id}}</button>
+			  </li>
+			</ul>	
+		</div>
+		<div class="hero-unit">
+			<div id="social">
+				<h5><i class="icon-thumbs-up"></i> Made by Anthony Scotti</h5>
+              <a href="http://www.128bitstudios.com/">128-bit Studios</a>
+              <a href="http://www.twitter.com/amscotti">
+                <img src="http://twitter-badges.s3.amazonaws.com/t_mini-a.png",alt="Follow amscotti on Twitter"/>
+              </a>  
+              <a href="http://www.linkedin.com/in/amscotti">
+                <img src="http://www.linkedin.com/img/webpromo/btn_in_20x15.png", width="20", height="15", alt="View Anthony Scotti's LinkedIn profile"/>
+              </a>
+            </div>
+		</div>
+	</div>
+</div>
+ 

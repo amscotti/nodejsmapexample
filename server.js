@@ -1,15 +1,10 @@
-var express = require('express');
-var socket = require('socket.io');
+var express = require('express'),
+socket = require('socket.io');
 
 var app = module.exports = express.createServer();
 
 // Configuration
 app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
 
@@ -21,10 +16,6 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// Routes
-app.get('/', function(req, res){
-  res.render('index');
-});
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
@@ -51,7 +42,7 @@ io.on('connection', function(socket){
 		
 	//Remove client from Google Map 
 	socket.on('disconnect', function(){
-	  io.sockets.emit("remove", {'id': socket.id});
+    io.sockets.emit("remove", {'id': socket.id});
 	});
 	 
 });
